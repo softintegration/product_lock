@@ -9,4 +9,8 @@ class ProductTemplate(models.Model):
     _inherit = ['product.template', 'model.lock.class']
 
 
-
+    @api.model_create_multi
+    def create(self, vals_list):
+        recs = super(ProductTemplate,self).create(vals_list)
+        recs.with_context(force_update=True)._action_lock()
+        return recs
