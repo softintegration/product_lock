@@ -18,6 +18,102 @@
       </field>
     </record>
 
+    <record id="product_template_tree_view_inherited" model="ir.ui.view">
+      <field name="name">product.template.tree.view.inherited</field>
+      <field name="model">product.template</field>
+      <field name="inherit_id" ref="product.product_template_tree_view"/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='product_variant_count']" position="after">
+            <field name="locked" invisible="1"/>
+        </xpath>
+        <xpath expr="//header" position="inside">
+            <button name="action_lock" type="object" string="Lock" groups="product_lock.group_product_lock_unlock"
+                    />
+            <button name="action_unlock" type="object" string="Unlock" groups="product_lock.group_product_lock_unlock"
+                    />
+        </xpath>
+      </field>
+    </record>
+
+    <record id="product_product_tree_view_inherited" model="ir.ui.view">
+      <field name="name">product.product.tree.view.inherited</field>
+      <field name="model">product.product</field>
+      <field name="inherit_id" ref="product.product_product_tree_view"/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='priority']" position="after">
+            <field name="locked" invisible="1"/>
+        </xpath>
+        <xpath expr="//header" position="inside">
+            <button name="action_lock" type="object" string="Lock" groups="product_lock.group_product_lock_unlock"
+                    />
+            <button name="action_unlock" type="object" string="Unlock" groups="product_lock.group_product_lock_unlock"
+                    />
+        </xpath>
+      </field>
+    </record>
+
+
+
+    <!-- Action server (Multi selection operations)-->
+    <record id="action_lock_multi_product_template" model="ir.actions.server">
+        <field name="name">Lock</field>
+        <field name="model_id" ref="product.model_product_template"/>
+        <field name="binding_model_id" ref="product.model_product_template"/>
+        <field name="binding_view_types">list</field>
+        <field name="groups_id" eval="[(4, ref('product_lock.group_product_lock_unlock'))]"/>
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+                res = records.action_lock()
+                if isinstance(res, dict):
+                    action = res
+        </field>
+    </record>
+
+    <record id="action_unlock_multi_product_template" model="ir.actions.server">
+        <field name="name">Unlock</field>
+        <field name="model_id" ref="product.model_product_template"/>
+        <field name="binding_model_id" ref="product.model_product_template"/>
+        <field name="binding_view_types">list</field>
+        <field name="groups_id" eval="[(4, ref('product_lock.group_product_lock_unlock'))]"/>
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+                res = records.action_unlock()
+                if isinstance(res, dict):
+                    action = res
+        </field>
+    </record>
+
+    <record id="action_lock_multi_product_product" model="ir.actions.server">
+        <field name="name">Lock</field>
+        <field name="model_id" ref="product.model_product_product"/>
+        <field name="binding_model_id" ref="product.model_product_product"/>
+        <field name="binding_view_types">list</field>
+        <field name="groups_id" eval="[(4, ref('product_lock.group_product_lock_unlock'))]"/>
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+                res = records.action_lock()
+                if isinstance(res, dict):
+                    action = res
+        </field>
+    </record>
+
+    <record id="action_unlock_multi_product_product" model="ir.actions.server">
+        <field name="name">Unlock</field>
+        <field name="model_id" ref="product.model_product_product"/>
+        <field name="binding_model_id" ref="product.model_product_product"/>
+        <field name="binding_view_types">list</field>
+        <field name="groups_id" eval="[(4, ref('product_lock.group_product_lock_unlock'))]"/>
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+                res = records.action_unlock()
+                if isinstance(res, dict):
+                    action = res
+        </field>
+    </record>
 
   </data>
 </odoo>
